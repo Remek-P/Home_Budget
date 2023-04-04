@@ -4,7 +4,7 @@ It is a simple expense tracker meant for mobile devices, thus please keep the sc
 
 ## Technologies used:
 * React,
-* React Router v5,
+* React Router v6,
 * SCSS
 * CRA
 * Material UI
