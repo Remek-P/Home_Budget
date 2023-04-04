@@ -1,0 +1,13 @@
+@import "./scss-general/style/reset";
+@import "./scss-general/variables/variables";
+@import "scss-general/variables/breakpoints";
+@import "./scss-general/style/style";
+@import "./scss-general/style/mixins";
+@import "./components/Layout/layout";
+@import "./components/Category/CatMain/categoryElements";
+@import "./components/Overview/OverviewMain/overviewElements";
+@import "./components/Details/details";
+@import "./components/NewExpense/newOrEditExpense";
+@import "./components/MissingLink/missingLink";
+@import "./components/Details-Components/TransactionsList/transactionList";
+@import "./components/Accordion/_accordion";

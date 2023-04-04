@@ -1,0 +1,15 @@
+.accordion-details-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin: 1.7rem 1.5rem 1.5rem 1.5rem;
+  gap: 1.5rem;
+  transition: 1s;
+
+  @include XS {
+    flex-direction: row;
+    margin: 1.5rem 0.5rem 0.5rem 0.5rem;
+    gap: 1rem;
+    transition: 1s;
+  }
+}

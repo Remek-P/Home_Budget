@@ -1,0 +1,68 @@
+.overview-details {
+  display: flex;
+  flex-direction: column;
+  min-width: 89.33vw;
+  min-height: 20.79vh;
+  margin-top: .88vh;
+  margin-bottom: 0.88vh;
+
+  &__header {
+    padding-bottom: 1rem;
+  }
+
+  &-summup {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 0.1rem;
+    padding-bottom: 1.75rem;
+
+
+    &__header {
+      font-size: $font-size-in-cat-date;
+      font-weight: $font-weight-regular;
+      line-height: $line-height-in-cat-date;
+      color: $colour-text-help;
+      text-transform: uppercase;
+    }
+
+    &__values {
+      font-size: $font-size-in-cat-sum-up;
+      font-weight: $font-weight-regular;
+      line-height: $font-size-in-cat-sum-up;
+      color: $colour-text-main;
+      text-transform: lowercase;
+    }
+  }
+
+  &-expense {
+    padding-top: 0.4375rem;
+    padding-bottom: $line-height-in-cat-date;
+    border-top: 1px solid $colour-cat-background;
+  }
+
+  &-expense__header {
+
+    font-size: $font-size-in-cat-date;
+    font-weight: $font-weight-regular;
+    line-height: $line-height-in-cat-date;
+    color: $colour-text-help;
+  }
+
+  &-expense__container {
+    display: flex;
+    justify-content: space-between;
+
+    &__header {
+      font-size: $font-size-in-cat;
+      font-weight: $font-weight-bold;
+      line-height: $line-height-in-cat;
+    }
+
+    &__value {
+      font-size: $font-size-in-cat;
+      font-weight: $font-weight-regular;
+      line-height: $line-height-in-cat;
+    }
+  }
+}
+

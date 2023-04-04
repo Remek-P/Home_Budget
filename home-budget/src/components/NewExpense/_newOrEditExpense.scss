@@ -1,0 +1,86 @@
+.expense {
+  margin: 0 1rem;
+
+  &__header {
+    padding: 10%;
+    text-align: center;
+    font-size: $font-size-cat-main-S;
+    transition: 1s;
+
+    @include XS {
+      font-size: $font-size-cat-main;
+      transition: 1s;
+    }
+
+    @include S {
+      font-size: $font-size-header;
+      transition: 1s;
+    }
+  }
+
+  &__form {
+    margin: 0 auto;
+
+    &-container {
+      display: flex;
+      margin: 5% 0;
+      flex-direction: column;
+
+      &__label {
+        margin: 3% 0;
+        transition: 1s;
+
+        @include XS {
+          font-size: $font-size-in-cat;
+          transition: 1s;
+        }
+      }
+
+      &__input {
+        font-size: $font-size-button;
+        transition: 1s;
+
+        @include XS {
+          font-size: $font-size-in-cat-details-info;
+          transition: 1s;
+        }
+      }
+    }
+
+    &__button-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      transition: 1s;
+
+      @include XS {
+        flex-direction: row;
+        transition: 1s;
+      }
+
+      &__button {
+        margin: 0.5rem;
+        padding: 0.25rem;
+        border: 1px solid $colour-text-main;
+        border-radius: 500px;
+        font-size: $font-size-popup-button;
+        line-height: $line-height-cat-main;
+
+        @include XS {
+          justify-content: space-evenly;
+          padding: 0.25rem 1rem;
+        }
+
+        &-confirm {
+          background: $colour-text-main;
+          color: $colour-background;
+        }
+
+        &-cancel {
+          background: $colour-background;
+          color: $colour-text-main;
+        }
+      }
+    }
+  }
+}

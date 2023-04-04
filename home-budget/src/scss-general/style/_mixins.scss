@@ -1,0 +1,31 @@
+@use "sass:map";
+
+@mixin XL {
+  @media (min-width: map.get($breakpoints, XL)) {
+    @content;
+  }
+}
+
+@mixin L {
+  @media (min-width: map.get($breakpoints, L)) {
+    @content;
+  }
+}
+
+@mixin M {
+  @media (min-width: map.get($breakpoints, M)) {
+    @content;
+  }
+}
+
+@mixin S {
+  @media (min-width: map.get($breakpoints, S)) {
+    @content;
+  }
+}
+
+@mixin XS {
+  @media (min-width: map.get($breakpoints, XS)) {
+    @content;
+  }
+}

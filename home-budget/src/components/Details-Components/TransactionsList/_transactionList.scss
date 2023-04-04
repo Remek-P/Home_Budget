@@ -1,0 +1,15 @@
+.transactionList-accordionSummary__header {
+  width: 100%;
+
+  &-expandedDetails {
+    margin: 0.5rem 0;
+    color: $colour-text-help;
+    font-weight: $font-weight-regular;
+    font-size: $font-size-in-cat-details-info;
+    line-height: $line-height-accordion;
+
+    &-first {
+      margin-top: -0.5rem;
+    }
+  }
+}
