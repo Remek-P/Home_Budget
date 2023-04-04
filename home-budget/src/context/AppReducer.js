@@ -1,5 +1,3 @@
-import React from "react";
-
 //reducer for handling multiple functions for provider
 export function AppReducer(state, action) {
     switch (action.type) {
