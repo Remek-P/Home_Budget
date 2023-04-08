@@ -54,7 +54,7 @@ export function EditCategoryName({ catName, setAnchorEl }) {
 
     //Handling the input value
     const handleInput = (event) => {
-        setNewCatName(event.target.value)
+        setNewCatName(event.target.value.toLowerCase())
     }
 
     //Handling submit with validation

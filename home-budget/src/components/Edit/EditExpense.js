@@ -127,7 +127,7 @@ export function EditExpense() {
                     <input required={true}
                            type="text"
                            value={newCategory}
-                           onChange={event => setNewCategory(event.target.value)}
+                           onChange={event => setNewCategory(event.target.value.toLowerCase())}
                            placeholder="Choose a category"
                            name="category"
                            id="category"

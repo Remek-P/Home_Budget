@@ -177,7 +177,7 @@ export function NewExpense() {
                            required={true}
                            type="text"
                            value={category}
-                           onChange={event => setCategory(event.target.value)}
+                           onChange={event => setCategory(event.target.value.toLowerCase())}
                            placeholder="Type the category"
                            name="category"
                            id="category"
