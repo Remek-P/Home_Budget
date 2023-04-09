@@ -20,6 +20,26 @@ export function NewExpense() {
     //Attributing new transaction id, by setting id's initial state - if the array is empty set as 1, if not by adding 1 to the first (greatest) id taken from (const) sortedTransactions
     const currentID = sortedTransactions[0] !== undefined ? sortedTransactions[0].id + 1 : 1;
 
+    const currencies = {
+        PLN: {
+            sign: "zł",
+            value: 1,
+        },
+        Euro: {
+            sign: "€",
+            value: 1,
+        },
+        USD: {
+            sign: "$",
+            value: 1,
+        }
+    };
+
+    const currencyValue = {
+        PLN: "$",
+        Euro: 4.7,
+        USD: 4.3,
+    };
 
     //States for assigning input value
     const [ id,         setID       ] = useState(currentID);
@@ -27,7 +47,7 @@ export function NewExpense() {
     const [ date,       setDate     ] = useState("");
     const [ value,      setValue    ] = useState("");
     //TODO: change currency to default PLN and add selection
-    const [ currency,   setCurrency ] = useState("zł");
+    const [ currency,   setCurrency ] = useState(currencies.PLN.sign);
     //TODO: add selection
     const [ category,   setCategory ] = useState("");
     const [ notes,      setNotes    ] = useState("");
@@ -53,6 +73,7 @@ export function NewExpense() {
         setOpen(false);
     };
 
+
     const timeID = () => {
         setTimeout(() => {
             navigate(`/CategoryMain/${category}`);
@@ -60,25 +81,49 @@ export function NewExpense() {
     };
 
     //Preventing default reload, setting id to next highest id number, assigning input value to states and assigning those states to new constant which will be sent to addTransaction function for reducer to handle the addition of new transaction to transactions array in Global Context and activating the snackbar
+
+    const createNewExpense = (id) => {
+        let newExpense;
+        if (currency === currencies.PLN.sign) {
+            newExpense = {
+                id,
+                name,
+                date,
+                month,
+                day,
+                value: +value,
+                currency,
+                category,
+                notes,
+            }
+        } else {
+            newExpense = {
+                id,
+                name,
+                date,
+                month,
+                day,
+                value: +value * 2,
+                originalValue: +value,
+                currency: "zł",
+                originalCurrency: currency,
+                category,
+                notes,
+            }
+        }
+        return newExpense
+    };
+
     const onSubmit = event => {
         event.preventDefault();
         setID((prevState) => prevState + 1);
 
-        const newExpense = {
-            id,
-            name,
-            date,
-            month,
-            day,
-            value: +value,
-            currency,
-            category,
-            notes,
-        }
-        addTransaction(newExpense);
+        addTransaction(createNewExpense(id));
         handleSnackbarOpening();
         timeID();
         clearTimeout(timeID);
+        console.log(createNewExpense(id))
+        console.log(findAllByKey(currencies, "$"))
     }
 
     const handleCancel = () => {
@@ -155,16 +200,21 @@ export function NewExpense() {
                     >
                         What was the currency?
                     </label>
-                    <input className="expense__form-container__input"
-                           required={true}
-                           type="text"
-                           value={currency}
-                           onChange={event => setCurrency(event.target.value)}
-                           placeholder="Choose the currency"
-                           name="currency"
-                           id="currency"
-                           disabled={true}
-                    />
+                    <select className="expense__form-container__input"
+                            required={true}
+                            name="currency"
+                            id="currency"
+                            onChange={event => setCurrency(event.target.value)}
+                    >
+                        {
+                            Object.values(currencies).map(option =>
+                                <option key={option.sign}
+                                        value={option.sign}
+                                >
+                                    {option.sign}
+                                </option>)
+                        }
+                    </select>
                 </div>
                 <div className="expense__form-container">
                     {/*TODO: category picking with add category*/}
