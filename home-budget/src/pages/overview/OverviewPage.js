@@ -1,6 +1,6 @@
 import React from "react";
-import {Details} from "../../components/Details/Details";
-import {FAB} from "../../components/FAB/FAB";
+import { Details } from "../../components/Details/Details";
+import { FAB } from "../../components/FAB/FAB";
 
 {/*Summ-up and list of all the transactions*/}
 export function OverviewPage() {

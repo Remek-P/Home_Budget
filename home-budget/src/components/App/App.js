@@ -40,4 +40,3 @@ export function App() {
 }
 {/*TODO: clean the APP from rubbish*/}
 {/*TODO: move the scss file to new location and rename*/}
-{/*TODO: phantom link on the opposite side of FAB*/}
