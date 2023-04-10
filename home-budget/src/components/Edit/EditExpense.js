@@ -12,7 +12,6 @@ export function EditExpense() {
 
     //using hook to navigate back after edition
     const navigate = useNavigate();
-    console.log("transaction", transaction)
 
     //Import functions from Global Context
     const { editTransaction } = useContext(GlobalContext);
