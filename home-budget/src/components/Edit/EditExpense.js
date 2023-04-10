@@ -80,7 +80,18 @@ export function EditExpense() {
     };
 
     const editOriginalValue = () => {
-
+        // when only the value changed
+        if (newCurrency === transaction.state.inputCurrency && +newValue !== transaction.state.value) {
+            return +newValue
+        }
+        // when only the currency changed
+        else if (newCurrency !== transaction.state.inputCurrency && +newValue === transaction.state.value) {
+            return +transaction.state.originalValue
+        }
+        // when the value and the currency changed
+        else {
+            return +newValue
+        }
     };
 
     //creating payload for reducer to handle edition
@@ -92,7 +103,7 @@ export function EditExpense() {
             month,
             day,
             value: editValue(),
-            originalValue: editValue(),
+            originalValue: editOriginalValue().toFixed(2),
             currency: "zł",
             inputCurrency: newCurrency,
             category: newCategory,
@@ -113,7 +124,6 @@ export function EditExpense() {
 
         editTransaction(createNewExpense());
         timeID();
-        console.log(createNewExpense())
     }
 
     const handleCancel = () => {
