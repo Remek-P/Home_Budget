@@ -9,6 +9,7 @@ import {useNavigate} from "react-router-dom";
 //Component for adding multiple new transactions and displaying notification after successfully doing so
 export function NewExpense() {
 
+
     //Import functions from Global Context
     const { addTransaction, transactions } = useContext(GlobalContext);
 
@@ -27,18 +28,12 @@ export function NewExpense() {
         },
         Euro: {
             sign: "€",
-            value: 1,
+            value: 4.7,
         },
         USD: {
             sign: "$",
-            value: 1,
+            value: 4.3,
         }
-    };
-
-    const currencyValue = {
-        PLN: "$",
-        Euro: 4.7,
-        USD: 4.3,
     };
 
     //States for assigning input value
@@ -83,36 +78,33 @@ export function NewExpense() {
     //Preventing default reload, setting id to next highest id number, assigning input value to states and assigning those states to new constant which will be sent to addTransaction function for reducer to handle the addition of new transaction to transactions array in Global Context and activating the snackbar
 
     const createNewExpense = (id) => {
-        let newExpense;
-        if (currency === currencies.PLN.sign) {
-            newExpense = {
-                id,
-                name,
-                date,
-                month,
-                day,
-                value: +value,
-                currency,
-                category,
-                notes,
-            }
-        } else {
-            newExpense = {
-                id,
-                name,
-                date,
-                month,
-                day,
-                value: +value * 2,
-                originalValue: +value,
-                currency: "zł",
-                originalCurrency: currency,
-                category,
-                notes,
-            }
+        const newExpense = {
+            id,
+            name,
+            date,
+            month,
+            day,
+            value: +value * currencies[getCurrency(currencies, currency)].value,
+            originalValue: +value,
+            currency: "zł",
+            originalCurrency: currency,
+            category,
+            notes,
         }
+        console.log(newExpense)
         return newExpense
     };
+
+    const getCurrency = (obj, search) => {
+        for (let [key, value] of Object.entries(obj)) {
+            if (value === search) {
+                return [key][0];
+            } else if (value && typeof value === 'object') {
+                let path = getCurrency(value, search);
+                if (path) return [key][0];
+            }
+        }
+    }
 
     const onSubmit = event => {
         event.preventDefault();
@@ -123,7 +115,6 @@ export function NewExpense() {
         timeID();
         clearTimeout(timeID);
         console.log(createNewExpense(id))
-        console.log(findAllByKey(currencies, "$"))
     }
 
     const handleCancel = () => {
