@@ -42,7 +42,8 @@ export function CategoryMain() {
     return (
         <ul>
             {/*Rendering list of categories for displaying at home page (catName)*/}
-            {uniqueCatArray.map((catName, index) =>
+            {
+                uniqueCatArray.map((catName, index) =>
                 <li key={index}>
                     {/*Generating links for separate categories*/}
                     <Link to={`/CategoryMain/${catName}`}>

@@ -14,7 +14,9 @@ export function Calculator({parentMonth, parentCategory}) {
         return (
             <>
                 {/*Calculating a sum-up of all expenses, if nothing then render 0*/}
-                {filteredTransactionsByMonth.reduce((total, amount) => total + amount.value, 0)}
+                {
+                    filteredTransactionsByMonth.reduce((total, amount) => total + amount.value, 0)
+                }
             </>
         )
     } else {

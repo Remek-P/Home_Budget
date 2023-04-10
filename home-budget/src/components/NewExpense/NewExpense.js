@@ -21,6 +21,7 @@ export function NewExpense() {
     //Attributing new transaction id, by setting id's initial state - if the array is empty set as 1, if not by adding 1 to the first (greatest) id taken from (const) sortedTransactions
     const currentID = sortedTransactions[0] !== undefined ? sortedTransactions[0].id + 1 : 1;
 
+    //storing exchange rates
     const currencies = {
         PLN: {
             sign: "zł",
@@ -33,7 +34,11 @@ export function NewExpense() {
         USD: {
             sign: "$",
             value: 4.3,
-        }
+        },
+        GBP: {
+            sign: "£",
+            value: 5.35,
+        },
     };
 
     //States for assigning input value
@@ -68,33 +73,14 @@ export function NewExpense() {
         setOpen(false);
     };
 
-
+    //timer for redirection to expense's category page
     const timeID = () => {
         setTimeout(() => {
             navigate(`/CategoryMain/${category}`);
         }, 1200)
     };
 
-    //Preventing default reload, setting id to next highest id number, assigning input value to states and assigning those states to new constant which will be sent to addTransaction function for reducer to handle the addition of new transaction to transactions array in Global Context and activating the snackbar
-
-    const createNewExpense = (id) => {
-        const newExpense = {
-            id,
-            name,
-            date,
-            month,
-            day,
-            value: +value * currencies[getCurrency(currencies, currency)].value,
-            originalValue: +value,
-            currency: "zł",
-            originalCurrency: currency,
-            category,
-            notes,
-        }
-        console.log(newExpense)
-        return newExpense
-    };
-
+    //getting currencies' key based on value of chosen currency, for recalculating the cost in national currency
     const getCurrency = (obj, search) => {
         for (let [key, value] of Object.entries(obj)) {
             if (value === search) {
@@ -106,6 +92,29 @@ export function NewExpense() {
         }
     }
 
+    // calculating the value in local currency and rounding it
+    const getValue = () => {
+        return +(+value * currencies[getCurrency(currencies, currency)].value).toFixed(2)
+    };
+
+    //creating payload for reducer to handle addition
+    const createNewExpense = (id) => {
+        return {
+            id,
+            name,
+            date,
+            month,
+            day,
+            value: getValue(),
+            originalValue: +value,
+            currency: "zł",
+            inputCurrency: currency,
+            category,
+            notes,
+        }
+    };
+
+    //Preventing default reload, setting id to next highest id number, assigning input value to states and assigning those states to new constant which will be sent to addTransaction function for reducer to handle the addition of new transaction to transactions array in Global Context and activating the snackbar
     const onSubmit = event => {
         event.preventDefault();
         setID((prevState) => prevState + 1);

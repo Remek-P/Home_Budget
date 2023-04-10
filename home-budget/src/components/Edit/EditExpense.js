@@ -1,6 +1,6 @@
 import React, {useContext, useState} from "react";
 import {GlobalContext} from "../../context/GlobalStates";
-import { useLocation, useNavigate } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 //TODO: styling
 
@@ -12,16 +12,36 @@ export function EditExpense() {
 
     //using hook to navigate back after edition
     const navigate = useNavigate();
+    console.log("transaction", transaction)
 
     //Import functions from Global Context
     const { editTransaction } = useContext(GlobalContext);
+
+    //storing exchange rates
+    const currencies = {
+        PLN: {
+            sign: "zł",
+            value: 1,
+        },
+        Euro: {
+            sign: "€",
+            value: 4.7,
+        },
+        USD: {
+            sign: "$",
+            value: 4.3,
+        },
+        GBP: {
+            sign: "£",
+            value: 5.35,
+        },
+    };
 
     //States for assigning new input value
     const [ newName,       setNewName     ] = useState(transaction.state.name);
     const [ newDate,       setNewDate     ] = useState(transaction.state.date);
     const [ newValue,      setNewValue    ] = useState(transaction.state.value);
-    //TODO: change currency to default PLN and add selection
-    const [ newCurrency,   setNewCurrency ] = useState(transaction.state.currency);
+    const [ newCurrency,   setNewCurrency ] = useState(transaction.state.inputCurrency);
     //TODO: add selection
     const [ newCategory,   setNewCategory ] = useState(transaction.state.category);
     const [ newNotes,      setNewNotes    ] = useState(transaction.state.notes);
@@ -31,27 +51,73 @@ export function EditExpense() {
     //Deriving day (y+m+d) variable from date state for sorting
     let day = newDate.replace(/(\d{4})[\/. -]?(\d{2})[\/. -]?(\d{1,2})/, "$1$2$3");
 
-    //preventing reload, assign new values to states (apart from id) and assigning those states to new constant which will be sent to editTransaction function for reducer to handle the editing of the transaction and navigating to category od the transaction
-    const onSubmit = event => {
-        event.preventDefault();
+    //getting currencies' key based on value of chosen currency, for recalculating the cost in national currency
+    const getCurrency = (obj, search) => {
+        for (let [key, value] of Object.entries(obj)) {
+            if (value === search) {
+                return [key][0];
+            } else if (value && typeof value === 'object') {
+                let path = getCurrency(value, search);
+                if (path) return [key][0];
+            }
+        }
+    }
 
-        const editedExpense = {
+    // editing the value and rounding
+    const editValue = () => {
+        // when only the value changed
+        if (newCurrency === transaction.state.inputCurrency && +newValue !== transaction.state.value) {
+            return +(+newValue * currencies[getCurrency(currencies, newCurrency)].value).toFixed(2)
+        }
+        // when only the currency changed
+        else if (newCurrency !== transaction.state.inputCurrency && +newValue === transaction.state.value) {
+            return +(transaction.state.originalValue * currencies[getCurrency(currencies, newCurrency)].value).toFixed(2)
+        }
+        // when the value and the currency changed
+        else {
+            return +(+newValue * currencies[getCurrency(currencies, newCurrency)].value).toFixed(2)
+        }
+    };
+
+    const editOriginalValue = () => {
+
+    };
+
+    //creating payload for reducer to handle edition
+    const createNewExpense = () => {
+        return {
             id: transaction.state.id,
             name: newName,
             date: newDate,
             month,
             day,
-            value: +newValue,
-            currency: newCurrency,
+            value: editValue(),
+            originalValue: editValue(),
+            currency: "zł",
+            inputCurrency: newCurrency,
             category: newCategory,
             notes: newNotes,
         }
-        editTransaction(editedExpense);
-        navigate(`/CategoryMain/${editedExpense.category}`);
+    }
+
+    //timer for redirection to expense's category page
+    const timeID = () => {
+        setTimeout(() => {
+            navigate(`/CategoryMain/${newCategory}`);
+        }, 1200)
+    };
+
+    //preventing reload, assign new values to states (apart from id) and assigning those states to new constant which will be sent to editTransaction function for reducer to handle the editing of the transaction and navigating to category od the transaction
+    const onSubmit = event => {
+        event.preventDefault();
+
+        editTransaction(createNewExpense());
+        timeID();
+        console.log(createNewExpense())
     }
 
     const handleCancel = () => {
-        navigate("/")
+        navigate(`/CategoryMain/${transaction.state.category}`)
     }
 
     // function valueOnChange() {
@@ -109,15 +175,24 @@ export function EditExpense() {
                     <label htmlFor="currency">
                         What was the currency?
                     </label>
-                    <input required={true}
-                           type="text"
-                           value={newCurrency}
-                           onChange={event => setNewCurrency(event.target.value)}
-                           placeholder="Choose the currency"
-                           name="currency"
-                           id="currency"
-                           disabled={true}
-                    />
+                    <select className="expense__form-container__input"
+                            required={true}
+                            name="currency"
+                            id="currency"
+                            onChange={event => setNewCurrency(event.target.value)}
+                    >
+                        <option hidden defaultValue={transaction.state.inputCurrency} >
+                            {transaction.state.inputCurrency}
+                        </option>
+                        {
+                            Object.values(currencies).map(option =>
+                                <option key={option.sign}
+                                        value={option.sign}
+                                >
+                                    {option.sign}
+                                </option>)
+                        }
+                    </select>
                 </div>
                 <div className="expense__form-container">
                     {/*TODO: category picking with add category*/}

@@ -11,6 +11,7 @@ import { styled } from "@mui/material/styles";
 import MuiAccordion from "@mui/material/Accordion";
 import AlertDialogSlideDelete from "../Buttons/AlertDialogSlide(Delete)";
 import { EditTransactionButton } from "../Buttons/EditTransactionButton";
+import { DetailsOriginalValue } from "../Details-Components/TransactionsList/AccordionExpenseDetails/DetailsOriginalValue";
 
 //Component displaying transactions in accordion (slide down details) - Material UI; receiving transaction id as a key (from Global Context transactions array) and transaction from mapping from parent
 export default function SimpleAccordion({ transaction }) {
@@ -52,6 +53,8 @@ export default function SimpleAccordion({ transaction }) {
                         <DetailsCategory transaction={transaction}/>
                         {/*Description of transaction; passing transaction*/}
                         <DetailsDescription transaction={transaction}/>
+                        {/*Value not converted to local currency of transaction; receiving transaction*/}
+                        <DetailsOriginalValue transaction={transaction}/>
                         <div className="accordion-details-buttons">
                             {/*Edit Button; passing transaction*/}
                             <EditTransactionButton transaction={transaction}/>
