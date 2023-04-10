@@ -1,4 +1,4 @@
-import React, {createContext, useReducer,} from "react";
+import React, { createContext, useReducer,} from "react";
 import { AppReducer } from "./AppReducer";
 
 //hardcoded values for presentational purpose, can be deleted
