@@ -1,7 +1,7 @@
 import React, {useContext, useState} from "react";
 import { useNavigate } from "react-router-dom"
-import {GlobalContext} from "../../context/GlobalStates";
-import {Snackbar} from "@mui/material";
+import { GlobalContext } from "../../context/GlobalStates";
+import { Snackbar } from "@mui/material";
 
 //TODO: styling
 
