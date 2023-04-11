@@ -56,6 +56,9 @@ export function AppReducer(state, action) {
                 //     return record;
                 // }),
             };
+        case "Highest-ID":
+            const arrayID = [...state.transactions.map(record => record.id)];
+            return Math.max(...arrayID) + 1;
         default:
             return state;
     }

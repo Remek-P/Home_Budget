@@ -1,6 +1,6 @@
-import React, {useContext, useState} from "react";
-import {GlobalContext} from "../../context/GlobalStates";
-import {useLocation, useNavigate} from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { GlobalContext } from "../../context/GlobalStates";
+import { useLocation, useNavigate } from "react-router-dom";
 
 //TODO: styling
 
@@ -93,6 +93,22 @@ export function EditExpense() {
         }
     };
 
+    // const getCategoryList = () => {
+    //     const catSet = new Set([...transactions.map((record) => record.category)]).add(newCatName);
+    //     return Array.from(catSet)
+    // };
+    //
+    // const categoryPicker = () => {
+    //     return (
+    //         getCategoryList().map(option =>
+    //             <option key={option}
+    //                     value={option}
+    //             >
+    //                 {option}
+    //             </option>)
+    //     )
+    // };
+
     //creating payload for reducer to handle edition
     const createNewExpense = () => {
         return {
@@ -123,6 +139,7 @@ export function EditExpense() {
 
         editTransaction(createNewExpense());
         timeID();
+        clearTimeout(timeID);
     }
 
     const handleCancel = () => {

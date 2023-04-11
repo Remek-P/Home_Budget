@@ -14,10 +14,8 @@ export function NewExpense() {
     //using hook to navigate back to home page
     const navigate = useNavigate();
 
-    //Sort transactions array by id number and return descending or 0
-    const sortedTransactions = ([...transactions].sort((a, b) => b.id - a.id)) || 0;
-    //Attributing new transaction id, by setting id's initial state - if the array is empty set as 1, if not by adding 1 to the first (greatest) id taken from (const) sortedTransactions
-    const currentID = sortedTransactions[0] !== undefined ? sortedTransactions[0].id + 1 : 1;
+    // Get the highest id from transaction list and add 1 || if falsy (empty list) choose 1
+    const currentID = Math.max(...[...transactions.map(item => item.id)]) + 1 || 1
 
     //storing exchange rates
     const currencies = {
@@ -40,7 +38,7 @@ export function NewExpense() {
     };
 
     //States for assigning input value
-    const [ id,         setID       ] = useState(currentID);
+    // const [ id,         setID       ] = useState(currentID);
     const [ name,       setName     ] = useState("");
     const [ date,       setDate     ] = useState("");
     const [ value,      setValue    ] = useState("");
@@ -54,9 +52,9 @@ export function NewExpense() {
     const [ open,       setOpen     ] = React.useState(false);
 
     //Deriving month (y+m) variable from date state for sorting
-    let month = date.replace(/(\d{4})[\/. -]?(\d{2})[\/. -]?(\d{1,2})/, "$1$2");
+    let month = date.replace(/(\d{4})[/. -]?(\d{2})[/. -]?(\d{1,2})/, "$1$2");
     //Deriving day (y+m+d) variable from date state for sorting
-    let day = date.replace(/(\d{4})[\/. -]?(\d{2})[\/. -]?(\d{1,2})/, "$1$2$3");
+    let day = date.replace(/(\d{4})[/. -]?(\d{2})[/. -]?(\d{1,2})/, "$1$2$3");
 
     //handle Snackbar opening - Material UI
     const handleSnackbarOpening = () => {
@@ -95,10 +93,26 @@ export function NewExpense() {
         return +(+value * currencies[getCurrency(currencies, currency)].value).toFixed(2)
     };
 
+    const getCategoryList = () => {
+        const catSet = new Set([...transactions.map((record) => record.category)]);
+        return Array.from(catSet)
+    };
+
+    const categoryPicker = () => {
+        return (
+            getCategoryList().map(option =>
+                <option key={option}
+                        value={option}
+                >
+                    {option}
+                </option>)
+        )
+    };
+
     //creating payload for reducer to handle addition
-    const createNewExpense = (id) => {
+    const createNewExpense = () => {
         return {
-            id,
+            id: currentID,
             name,
             date,
             month,
@@ -115,16 +129,17 @@ export function NewExpense() {
     //Preventing default reload, setting id to next highest id number, assigning input value to states and assigning those states to new constant which will be sent to addTransaction function for reducer to handle the addition of new transaction to transactions array in Global Context and activating the snackbar
     const onSubmit = event => {
         event.preventDefault();
-        setID((prevState) => prevState + 1);
+        // setID((prevState) => prevState + 1);
 
-        addTransaction(createNewExpense(id));
+        addTransaction(createNewExpense());
         handleSnackbarOpening();
         timeID();
         clearTimeout(timeID);
     }
 
-    const handleCancel = () => {
-        navigate(-1)
+    const handleCancel = (e) => {
+        e.preventDefault();
+        navigate(-1);
     }
 
     // function valueOnChange() {
@@ -150,6 +165,7 @@ export function NewExpense() {
                     </label>
                     <input className="expense__form-container__input"
                            required={true}
+                           autoFocus={true}
                            type="text"
                            value={name}
                            onChange={event => setName(event.target.value)}
@@ -220,8 +236,19 @@ export function NewExpense() {
                     >
                         What is the category?
                     </label>
+                    <select className="expense__form-container__input"
+                            required={value === ""}
+                            name="category"
+                            id="category"
+                            onChange={event => setCategory(event.target.value.toLowerCase())}
+                    >
+                        <option value="" hidden>Choose the category</option>
+                        {
+                            categoryPicker()
+                        }
+                    </select>
                     <input className="expense__form-container__input"
-                           required={true}
+                           required={value === ""}
                            type="text"
                            value={category}
                            onChange={event => setCategory(event.target.value.toLowerCase())}

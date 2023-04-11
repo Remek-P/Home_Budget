@@ -11,7 +11,7 @@ import { GlobalContext } from "../../../context/GlobalStates";
 export function CategoryMain() {
 
     //Accessing transactions array from Global State
-    const { transactions } = useContext(GlobalContext)
+    const { transactions } = useContext(GlobalContext);
 
     //Formatting date so the PercentageCalculator.js can compare months formatted as a 2-digit number (YYYYMM)
     const currentDate = new Date();

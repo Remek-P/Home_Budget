@@ -73,13 +73,14 @@ export const GlobalProvider = ({children}) => {
             payload: categoryNameChange,
         })
     }
+
     //providing the provider with access to function
     return (
         <GlobalContext.Provider
             value={{
                 transactions: state.transactions,
-                currencySign: state.currencySign,
-                categoryList: state.categoryList,
+                // currencySign: state.currencySign,
+                // categoryList: state.categoryList,
                 sortByDate: state.sortByDate,
                 deleteTransaction,
                 deleteCategory,
