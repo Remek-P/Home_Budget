@@ -20,6 +20,7 @@ const fabStyle = {
 };
 
 export function FAB() {
+
     return (
         //     {/*Material UI component - button*/}
         <Fab sx={fabStyle}>

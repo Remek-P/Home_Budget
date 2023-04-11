@@ -1,20 +1,18 @@
 import React, {useContext, useState} from "react";
+import { useNavigate } from "react-router-dom"
 import {GlobalContext} from "../../context/GlobalStates";
-
 import {Snackbar} from "@mui/material";
-import {useNavigate} from "react-router-dom";
 
 //TODO: styling
 
 //Component for adding multiple new transactions and displaying notification after successfully doing so
 export function NewExpense() {
 
-
     //Import functions from Global Context
     const { addTransaction, transactions } = useContext(GlobalContext);
 
     //using hook to navigate back to home page
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     //Sort transactions array by id number and return descending or 0
     const sortedTransactions = ([...transactions].sort((a, b) => b.id - a.id)) || 0;
@@ -123,11 +121,10 @@ export function NewExpense() {
         handleSnackbarOpening();
         timeID();
         clearTimeout(timeID);
-        console.log(createNewExpense(id))
     }
 
     const handleCancel = () => {
-        navigate("/")
+        navigate(-1)
     }
 
     // function valueOnChange() {
