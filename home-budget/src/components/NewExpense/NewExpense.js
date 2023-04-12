@@ -118,6 +118,8 @@ export function NewExpense() {
                     </option>)
             )
     };
+
+    // displaying and hiding (if no categories) the category list
     const displayCategoryPicker = () => {
         if (getCategoryList().length !== 0) {
             return (
