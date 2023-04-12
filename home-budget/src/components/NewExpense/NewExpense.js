@@ -11,11 +11,17 @@ export function NewExpense() {
     //Import functions from Global Context
     const { addTransaction, transactions } = useContext(GlobalContext);
 
+    // function for mapping transaction entries into array
+    const transactionRecordArray = (entry) => {
+        return [...transactions.map(record => record[entry])]
+    };
+
     //using hook to navigate back to home page
     const navigate = useNavigate();
 
-    // Get the highest id from transaction list and add 1 || if falsy (empty list) choose 1
-    const currentID = Math.max(...[...transactions.map(item => item.id)]) + 1 || 1
+    // Get the highest id from transaction list and add 1 || if (empty list) choose 1
+    const highestID = Math.max(...transactionRecordArray("id"));
+    const currentID = Number.isFinite(highestID) ? highestID + 1 : 1
 
     //storing exchange rates
     const currencies = {
@@ -38,7 +44,6 @@ export function NewExpense() {
     };
 
     //States for assigning input value
-    // const [ id,         setID       ] = useState(currentID);
     const [ name,       setName     ] = useState("");
     const [ date,       setDate     ] = useState("");
     const [ value,      setValue    ] = useState("");
@@ -93,23 +98,42 @@ export function NewExpense() {
         return +(+value * currencies[getCurrency(currencies, currency)].value).toFixed(2)
     };
 
+    // Getting unique list of categories from all transactions
     const getCategoryList = () => {
-        const catSet = new Set([...transactions.map((record) => record.category)]);
+        const catSet = new Set(transactionRecordArray("category"));
         return Array.from(catSet)
     };
 
+    // function for rendering the list of categories for the user
     const categoryPicker = () => {
-        return (
-            getCategoryList().map(option =>
-                <option key={option}
-                        value={option}
+            return (
+                getCategoryList()?.map(option =>
+                    <option key={option}
+                            value={option}
+                    >
+                        {option}
+                    </option>)
+            )
+    };
+    const displayCategoryPicker = () => {
+        if (getCategoryList().length !== 0) {
+            return (
+                <select className="expense__form-container__input"
+                        required={value === ""}
+                        name="category"
+                        id="category"
+                        onChange={event => setCategory(event.target.value.toLowerCase())}
                 >
-                    {option}
-                </option>)
-        )
+                    <option value="" hidden>Choose the category</option>
+                    {
+                        categoryPicker()
+                    }
+                </select>
+            )
+        }
     };
 
-    //creating payload for reducer to handle addition
+    //creating payload for reducer to handle addition to transactions
     const createNewExpense = () => {
         return {
             id: currentID,
@@ -129,8 +153,6 @@ export function NewExpense() {
     //Preventing default reload, setting id to next highest id number, assigning input value to states and assigning those states to new constant which will be sent to addTransaction function for reducer to handle the addition of new transaction to transactions array in Global Context and activating the snackbar
     const onSubmit = event => {
         event.preventDefault();
-        // setID((prevState) => prevState + 1);
-
         addTransaction(createNewExpense());
         handleSnackbarOpening();
         timeID();
@@ -236,17 +258,9 @@ export function NewExpense() {
                     >
                         What is the category?
                     </label>
-                    <select className="expense__form-container__input"
-                            required={value === ""}
-                            name="category"
-                            id="category"
-                            onChange={event => setCategory(event.target.value.toLowerCase())}
-                    >
-                        <option value="" hidden>Choose the category</option>
-                        {
-                            categoryPicker()
-                        }
-                    </select>
+                    {
+                        displayCategoryPicker()
+                    }
                     <input className="expense__form-container__input"
                            required={value === ""}
                            type="text"
@@ -283,7 +297,7 @@ export function NewExpense() {
                         Add Expense
                     </button>
                 </div>
-                {/*Component for displaying success notification, after adding a singular transaction*/}
+                {/*Component for displaying success notification, after adding transactionRecordArray singular transaction*/}
                 <Snackbar open={open}
                           autoHideDuration={2000}
                           message="Successfully added transaction"
