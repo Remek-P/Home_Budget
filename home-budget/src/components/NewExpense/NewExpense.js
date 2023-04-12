@@ -11,6 +11,8 @@ export function NewExpense() {
     //Import functions from Global Context
     const { addTransaction, transactions } = useContext(GlobalContext);
 
+    console.log(transactions)
+
     // function for mapping transaction entries into array
     const transactionRecordArray = (entry) => {
         return [...transactions.map(record => record[entry])]
@@ -55,6 +57,7 @@ export function NewExpense() {
 
     //Snackbar states - Material UI
     const [ open,       setOpen     ] = React.useState(false);
+    const redirectTime = 1200
 
     //Deriving month (y+m) variable from date state for sorting
     let month = date.replace(/(\d{4})[/. -]?(\d{2})[/. -]?(\d{1,2})/, "$1$2");
@@ -78,7 +81,7 @@ export function NewExpense() {
     const timeID = () => {
         setTimeout(() => {
             navigate(`/CategoryMain/${category}`);
-        }, 1200)
+        }, redirectTime)
     };
 
     //getting currencies' key based on value of chosen currency, for recalculating the cost in national currency
@@ -119,7 +122,7 @@ export function NewExpense() {
         if (getCategoryList().length !== 0) {
             return (
                 <select className="expense__form-container__input"
-                        required={value === ""}
+                        // required={category === ""}
                         name="category"
                         id="category"
                         onChange={event => setCategory(event.target.value.toLowerCase())}
@@ -262,7 +265,7 @@ export function NewExpense() {
                         displayCategoryPicker()
                     }
                     <input className="expense__form-container__input"
-                           required={value === ""}
+                           // required={category === ""}
                            type="text"
                            value={category}
                            onChange={event => setCategory(event.target.value.toLowerCase())}
@@ -299,7 +302,7 @@ export function NewExpense() {
                 </div>
                 {/*Component for displaying success notification, after adding transactionRecordArray singular transaction*/}
                 <Snackbar open={open}
-                          autoHideDuration={2000}
+                          autoHideDuration={redirectTime}
                           message="Successfully added transaction"
                           onClose={handleSnackbarClosing}
                 />
