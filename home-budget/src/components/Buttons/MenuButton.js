@@ -91,9 +91,9 @@ export default function MenuButton({ catName,sortByDateDescending, setSortByDate
         <div>
             {/*Menu Button displaying category name/all expenses - Material UI*/}
             <Button
-                id="demo-customized-button"
+                id="customized-button"
                 sx={buttonStyle}
-                aria-controls={open ? 'demo-customized-menu' : undefined}
+                aria-controls={open ? 'customized-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
                 variant="contained"
@@ -104,8 +104,8 @@ export default function MenuButton({ catName,sortByDateDescending, setSortByDate
             </Button>
             {/*Menu component appearing after click on category name - Material UI*/}
             <StyledMenu
-                id="demo-customized-menu"
-                MenuListProps={{'aria-labelledby': 'demo-customized-button',}}
+                id="customized-menu"
+                MenuListProps={{'aria-labelledby': 'customized-button',}}
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}

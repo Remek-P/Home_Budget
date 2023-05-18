@@ -40,38 +40,39 @@ export function CategoryMain() {
     let uniqueCatArray = categoryArray.filter((item,index) => categoryArray.indexOf(item) === index);
 
     return (
-        <ul>
+        <ul className="size">
             {/*Rendering list of categories for displaying at home page (catName)*/}
             {
                 uniqueCatArray.map((catName, index) =>
-                <li key={index}>
-                    {/*Generating links for separate categories*/}
-                    <Link to={`/CategoryMain/${catName}`}>
-                        <p className="category-main">
-                            {/*Material UI component - card with styling and animations*/}
-                            <CardActionArea sx={{margin: 0, padding: 0}}>
-                                <div className="category-main-container">
-                                    {/*Component rendering header with the name of the category passed as catName*/}
-                                    <CategoryHeader catName={catName}/>
-                                    <div className="category-details-container">
-                                        {/*Component for rendering sum-up of category expenses (passing Current month and category name for the Calculator) and in the future, the sign of currency*/}
-                                        <CategorySumUp
-                                            catName={catName}
-                                            parentMonth={currentMonth}
-                                        />
-                                        {/*Component for rendering M2M change in transactions value for category expenses and all expenses (passing Current and previous month, and category name for the Calculator) and in the future, offering other possibilities*/}
-                                        <CategoryPercentage
-                                            parentCurrentMonth={currentMonth}
-                                            parentPreviousMonth={previousMonth}
-                                            parentCategory={catName}
-                                        />
+                    <li key={index}>
+                        {/*Generating links for separate categories*/}
+                        <Link className="size"
+                              to={`/CategoryMain/${catName}`}>
+                            <p className="overview-main">
+                                {/*Material UI component - card with styling and animations*/}
+                                <CardActionArea sx={{margin: 0, padding: 0}}>
+                                    <div className="overview-main-container size">
+                                        {/*Component rendering header with the name of the category passed as catName*/}
+                                        <CategoryHeader catName={catName}/>
+                                        <div className="overview-components-container">
+                                            {/*Component for rendering sum-up of category expenses (passing Current month and category name for the Calculator) and in the future, the sign of currency*/}
+                                            <CategorySumUp
+                                                catName={catName}
+                                                parentMonth={currentMonth}
+                                            />
+                                            {/*Component for rendering M2M change in transactions value for category expenses and all expenses (passing Current and previous month, and category name for the Calculator) and in the future, offering other possibilities*/}
+                                            <CategoryPercentage
+                                                parentCurrentMonth={currentMonth}
+                                                parentPreviousMonth={previousMonth}
+                                                parentCategory={catName}
+                                            />
+                                        </div>
                                     </div>
-                                </div>
-                            </CardActionArea>
-                        </p>
-                    </Link>
-                </li>
-            )}
+                                </CardActionArea>
+                            </p>
+                        </Link>
+                    </li>
+                )}
         </ul>
     )
 }

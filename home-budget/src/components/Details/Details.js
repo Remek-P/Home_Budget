@@ -13,7 +13,7 @@ export function Details({ catName }) {
     let [ sortByDateDescending, setSortByDateDescending ] = useState(true);
 
     return (
-        <section className="overview-details">
+        <section className="overview-details size">
             <h3 className="overview-details__header">
                 {/* Displays category name/all expanses and serves as a menu button; passing state and category name*/}
                 <MenuButton

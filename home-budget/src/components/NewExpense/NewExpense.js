@@ -11,8 +11,6 @@ export function NewExpense() {
     //Import functions from Global Context
     const { addTransaction, transactions } = useContext(GlobalContext);
 
-    console.log(transactions)
-
     // function for mapping transaction entries into array
     const transactionRecordArray = (entry) => {
         return [...transactions.map(record => record[entry])]

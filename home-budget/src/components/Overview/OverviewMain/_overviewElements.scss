@@ -1,19 +1,19 @@
 .overview-main {
   display: flex;
-  min-width: $overview-tile-width;
-  min-height: $overview-tile-height;
   margin-top: $overview-container-margin-top;
   margin-bottom: $overview-container-margin-bottom;
   box-shadow: rgba(0, 0, 0, 0.2) 0 3px 3px -2px, rgba(0, 0, 0, 0.14) 0 3px 4px 0px, rgba(0, 0, 0, 0.12) 0 1px 8px 0;
   border-radius: 2px;
 }
 
-
 .overview-main-container {
-  min-width: 100%;
-  min-height: 100%;
   background-color: $colour-cat-background;
   position: relative;
+}
+
+.category-details-container {
+  display: flex;
+  margin-bottom: 6%;
 }
 
 .overview-main__header {
@@ -33,8 +33,7 @@
 .overview-components-container {
   display: flex;
   gap: 20%;
-  margin-bottom: 6%;
-  padding: 4% 1% 1% 7%;
+  padding: 4% 1% 8% 7%;
   font-size: $font-size-cat-main-S;
   font-weight: $font-weight-regular;
   transition-duration: 1s;

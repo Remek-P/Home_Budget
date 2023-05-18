@@ -7,11 +7,12 @@ import { OverviewSumUp } from "../OverviewComponents/Overview-sum-up";
 export function OverviewMain() {
 
     return (
-        <Link to="/Overview">
+        <Link className="size"
+              to="/Overview">
             <p className="overview-main">
                 {/*Material UI component - card with styling and animations*/}
                 <CardActionArea sx={{margin: 0, padding: 0}}>
-                    <div className="overview-main-container">
+                    <div className="overview-main-container size">
                         {/*Component rendering header with title for All expenses, kept in case editing should be implemented*/}
                         <OverviewHeader/>
                         <div className="overview-components-container">
